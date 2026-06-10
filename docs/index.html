@@ -76,22 +76,23 @@ footer a:hover{color:#fff}
 <span class="download-btn">Descargar</span>
 </a>
 
-<a class="download" href="https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/WhatsApp.Desktop_1.0.0_amd64.AppImage">
-<div class="download-info">
-<span class="download-name">AppImage (universal)</span>
-<span class="download-desc">Funciona en cualquier distro Linux</span>
-</div>
-<span class="download-btn">Descargar</span>
-</a>
-</div>
+      <a class="download" href="https://github.com/jh2929/whatsapp-desktop-for-linux">
+      <div class="download-info">
+        <span class="download-name">Arch / Manjaro / CachyOS</span>
+        <span class="download-desc">Compilar desde código — 13 MB</span>
+      </div>
+      <span class="download-btn">Instrucciones</span>
+      </a>
+    </div>
 
-<div class="instructions">
-<h2>Instalación rápida</h2>
-<code><span class="comment"># Debian / Ubuntu / Mint</span><br/>sudo dpkg -i WhatsApp.Desktop_1.0.0_amd64.deb</code>
-<code><span class="comment"># Fedora / RHEL</span><br/>sudo rpm -i WhatsApp.Desktop-1.0.0-1.x86_64.rpm</code>
-<code><span class="comment"># AppImage (cualquier distro)</span><br/>chmod +x WhatsApp.Desktop_1.0.0_amd64.AppImage<br/>./WhatsApp.Desktop_1.0.0_amd64.AppImage</code>
-<p style="color:#71717a;font-size:.82rem;margin-top:.5rem">Después de instalar, abre la app, escanea el código QR con tu teléfono y listo.</p>
-</div>
+    <div class="instructions">
+      <h2>Instalación rápida</h2>
+      <code><span class="comment"># Cualquier distro (recomendado)</span><br/>curl -fsSL https://raw.githubusercontent.com/jh2929/whatsapp-desktop-for-linux/main/install.sh | sudo bash</code>
+      <code><span class="comment"># Debian / Ubuntu / Mint</span><br/>sudo dpkg -i WhatsApp.Desktop_1.0.0_amd64.deb</code>
+      <code><span class="comment"># Fedora / RHEL</span><br/>sudo rpm -i WhatsApp.Desktop-1.0.0-1.x86_64.rpm</code>
+      <code><span class="comment"># Arch / Manjaro / CachyOS</span><br/>curl -fsSL https://raw.githubusercontent.com/jh2929/whatsapp-desktop-for-linux/main/install.sh | sudo bash</code>
+      <p style="color:#71717a;font-size:.82rem;margin-top:.5rem">El instalador automático detecta tu distro, instala dependencias y compila la app. Solo necesitas Internet y paciencia (~2-3 min en compilación).</p>
+    </div>
 
 <footer>
 <p><a href="https://github.com/jh2929/whatsapp-desktop-for-linux">GitHub</a> &middot; <a href="https://github.com/jh2929/whatsapp-desktop-for-linux/releases">Releases</a> &middot; Código abierto bajo MIT</p>

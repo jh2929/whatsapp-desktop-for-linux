@@ -96,29 +96,36 @@ sudo apt install gnome-shell-extension-appindicator    # Ubuntu/Debian
 
 ## Instalación
 
-### Desde paquete (recomendado)
+### Instalador automático (recomendado para cualquier distro)
 
-Descarga el paquete correspondiente a tu distribución desde [Releases](https://github.com/jh2929/whatsapp-desktop-for-linux/releases):
-
-```bash
-# Debian / Ubuntu / Linux Mint
-wget https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/whatsapp-desktop_1.0.0_amd64.deb
-sudo dpkg -i whatsapp-desktop_1.0.0_amd64.deb
-
-# Fedora / RHEL / AlmaLinux
-wget https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/whatsapp-desktop-1.0.0-1.x86_64.rpm
-sudo rpm -i whatsapp-desktop-1.0.0-1.x86_64.rpm
-```
-
-> Las dependencias del sistema (`webkit2gtk`, `gtk3`, `librsvg`, `libayatana-appindicator`) se instalan automáticamente al usar el paquete `.deb` o `.rpm`.
-
-### Desde el binario
+Detecta tu distribución, instala dependencias y compila la app automáticamente:
 
 ```bash
-chmod +x whatsapp-desktop
-sudo cp whatsapp-desktop /usr/local/bin/
-whatsapp-desktop
+curl -fsSL https://raw.githubusercontent.com/jh2929/whatsapp-desktop-for-linux/main/install.sh | sudo bash
 ```
+
+> En sistemas Debian/Ubuntu/Fedora descarga el paquete precompilado. En Arch y derivados compila desde código (~2-3 min).
+
+### Debian / Ubuntu / Linux Mint
+
+```bash
+wget https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/WhatsApp.Desktop_1.0.0_amd64.deb
+sudo dpkg -i WhatsApp.Desktop_1.0.0_amd64.deb
+```
+
+### Fedora / RHEL / AlmaLinux
+
+```bash
+wget https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/WhatsApp.Desktop-1.0.0-1.x86_64.rpm
+sudo rpm -i WhatsApp.Desktop-1.0.0-1.x86_64.rpm
+```
+
+### Arch / CachyOS / Manjaro
+
+Usa el [instalador automático](#instalador-automático-recomendado-para-cualquier-distro) (compila desde código).  
+O sigue las instrucciones de [compilación desde código](#compilar-desde-código).
+
+También hay un [PKGBUILD](./PKGBUILD) disponible para empaquetado manual con `makepkg`.
 
 ## Compilar desde código
 

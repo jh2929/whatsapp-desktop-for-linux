@@ -40,14 +40,53 @@ install_rpm() {
 
 install_arch() {
   echo "Detectada distribución basada en Arch Linux"
-  echo "Descargando AppImage..."
-  local url="$BASE/$TAG/$APPIMAGE"
+  echo ""
+
+  if ! command -v rustc &>/dev/null || ! command -v cargo &>/dev/null; then
+    echo "Instalando Rust..."
+    sudo pacman -S --noconfirm rust
+  fi
+
+  if ! command -v npm &>/dev/null; then
+    echo "Instalando Node.js..."
+    sudo pacman -S --noconfirm nodejs npm
+  fi
+
+  echo "Verificando dependencias del sistema..."
+  local deps=(
+    "webkit2gtk-4.1"
+    "gtk3"
+    "librsvg"
+    "libayatana-appindicator"
+  )
+  local missing=()
+  for dep in "${deps[@]}"; do
+    pacman -Qi "$dep" &>/dev/null || missing+=("$dep")
+  done
+
+  if [ ${#missing[@]} -gt 0 ]; then
+    echo "Instalando dependencias: ${missing[*]}"
+    sudo pacman -S --noconfirm "${missing[@]}"
+  fi
+
+  echo "Compilando WhatsApp Desktop desde código..."
+  echo "Esto puede tomar varios minutos."
+  echo ""
+
+  local tmpdir=$(mktemp -d)
+  cd "$tmpdir"
+  curl -fsSL "https://api.github.com/repos/$REPO/tarball/main" | tar xz --strip-components=1
+  npm install
+  npm run tauri build -- --bundles none
+
+  echo "Instalando en el sistema..."
   local dest="/usr/local/bin/whatsapp-desktop"
   local icon_dest="/usr/local/share/icons/whatsapp-desktop.png"
   local desktop_dest="/usr/share/applications/whatsapp-desktop.desktop"
-  sudo curl -fsSL "$url" -o "$dest"
-  sudo chmod +x "$dest"
-  sudo curl -fsSL -o "$icon_dest" "https://raw.githubusercontent.com/$REPO/main/src-tauri/icons/icon.png"
+
+  sudo cp "src-tauri/target/release/whatsapp-desktop" "$dest"
+  sudo cp "src-tauri/icons/icon.png" "$icon_dest"
+
   sudo bash -c "cat > $desktop_dest" <<EOF
 [Desktop Entry]
 Type=Application
@@ -59,6 +98,11 @@ Terminal=false
 Categories=Network;InstantMessaging;Chat;
 StartupWMClass=whatsapp-desktop
 EOF
+
+  cd /
+  rm -rf "$tmpdir"
+
+  echo ""
   echo "Instalación completada."
   echo "Busca 'WhatsApp Desktop' en el menú de aplicaciones."
 }
