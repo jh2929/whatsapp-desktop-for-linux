@@ -4,6 +4,16 @@ Aplicación nativa de escritorio para WhatsApp Web, construida con **Rust + Taur
 
 Ultraligera, rápida y con notificaciones nativas. Sin Electron, sin Chromium empaquetado, sin trackers, sin telemetría. Solo un webview nativo apuntando a `web.whatsapp.com` con un puente de notificaciones.
 
+## Por qué este proyecto
+
+WhatsApp no ofrece un cliente nativo de escritorio para Linux. Las alternativas existentes —ZapZap, Franz, Rambox, el wrapper no oficial de Electron— empaquetan Chromium, consumen cientos de megas de RAM, y en muchos casos añaden telemetría, trackers o capas intermedias que procesan tus datos.
+
+Este proyecto nace con una filosofía clara: **ser un puente, no un intermediario**.
+
+Construido con Rust y Tauri v2, la app no es más que un webview nativo del sistema apuntando a `web.whatsapp.com`. No hay servidores intermedios, no hay cuentas externas, no hay recolección de datos. Tu sesión, tus mensajes y tus contactos van directamente a WhatsApp —exactamente como cuando abres la web en tu navegador, pero en una ventana propia con notificaciones nativas y soporte de bandeja del sistema.
+
+El objetivo es simple: que cualquier usuario de Linux pueda instalar, escanear el código QR y tener WhatsApp funcionando en su escritorio en menos de un minuto, sin tener que lidiar con dependencias de desarrollo, compilaciones desde código ni configuraciones de WebKit.
+
 ## Comparativa
 
 | Característica | WhatsApp Desktop (Tauri) | ZapZap / Electron | WhatsApp Web (Chrome) |
@@ -88,15 +98,19 @@ sudo apt install gnome-shell-extension-appindicator    # Ubuntu/Debian
 
 ### Desde paquete (recomendado)
 
-Descarga el paquete correspondiente a tu distribución:
+Descarga el paquete correspondiente a tu distribución desde [Releases](https://github.com/jh2929/whatsapp-desktop-for-linux/releases):
 
 ```bash
 # Debian / Ubuntu / Linux Mint
+wget https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/whatsapp-desktop_1.0.0_amd64.deb
 sudo dpkg -i whatsapp-desktop_1.0.0_amd64.deb
 
 # Fedora / RHEL / AlmaLinux
+wget https://github.com/jh2929/whatsapp-desktop-for-linux/releases/download/v1.0.0/whatsapp-desktop-1.0.0-1.x86_64.rpm
 sudo rpm -i whatsapp-desktop-1.0.0-1.x86_64.rpm
 ```
+
+> Las dependencias del sistema (`webkit2gtk`, `gtk3`, `librsvg`, `libayatana-appindicator`) se instalan automáticamente al usar el paquete `.deb` o `.rpm`.
 
 ### Desde el binario
 
