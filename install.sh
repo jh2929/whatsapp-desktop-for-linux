@@ -43,10 +43,24 @@ install_arch() {
   echo "Descargando AppImage..."
   local url="$BASE/$TAG/$APPIMAGE"
   local dest="/usr/local/bin/whatsapp-desktop"
+  local icon_dest="/usr/local/share/icons/whatsapp-desktop.png"
+  local desktop_dest="/usr/share/applications/whatsapp-desktop.desktop"
   sudo curl -fsSL "$url" -o "$dest"
   sudo chmod +x "$dest"
+  sudo curl -fsSL -o "$icon_dest" "https://raw.githubusercontent.com/$REPO/main/src-tauri/icons/icon.png"
+  sudo bash -c "cat > $desktop_dest" <<EOF
+[Desktop Entry]
+Type=Application
+Name=WhatsApp Desktop
+Comment=WhatsApp Web como app nativa de escritorio
+Exec=/usr/local/bin/whatsapp-desktop
+Icon=/usr/local/share/icons/whatsapp-desktop.png
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+StartupWMClass=whatsapp-desktop
+EOF
   echo "Instalación completada."
-  echo "Ejecuta: whatsapp-desktop"
+  echo "Busca 'WhatsApp Desktop' en el menú de aplicaciones."
 }
 
 install_appimage() {
@@ -57,6 +71,11 @@ install_appimage() {
   chmod +x "$dest"
   echo "Descargado: $dest"
   echo "Ejecuta: ./WhatsApp.Desktop.AppImage"
+  echo ""
+  echo "Para instalarlo en el sistema y que aparezca en el menú:"
+  echo "  sudo cp $dest /usr/local/bin/whatsapp-desktop"
+  echo "  sudo curl -fsSL -o /usr/local/share/icons/whatsapp-desktop.png https://raw.githubusercontent.com/$REPO/main/src-tauri/icons/icon.png"
+  echo "  (luego crea el acceso directo con install.sh en modo arch)"
 }
 
 case "$(detect_distro)" in

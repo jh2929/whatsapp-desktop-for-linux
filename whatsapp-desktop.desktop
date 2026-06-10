@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=WhatsApp Desktop
+Comment=WhatsApp Web como app nativa de escritorio
+Exec=/usr/local/bin/whatsapp-desktop
+Icon=/usr/local/share/icons/whatsapp-desktop.png
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+StartupWMClass=whatsapp-desktop
