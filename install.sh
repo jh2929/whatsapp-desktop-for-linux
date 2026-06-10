@@ -2,31 +2,25 @@
 set -euo pipefail
 
 REPO="jh2929/whatsapp-desktop-for-linux"
-RELEASE="v1.0.0"
-API="https://api.github.com/repos/$REPO/releases/tags/$RELEASE"
+BASE="https://github.com/$REPO/releases/download"
+TAG="v1.0.0"
+
+DEB="WhatsApp.Desktop_1.0.0_amd64.deb"
+RPM="WhatsApp.Desktop-1.0.0-1.x86_64.rpm"
+APPIMAGE="WhatsApp.Desktop_1.0.0_amd64.AppImage"
 
 detect_distro() {
-  if command -v apt &>/dev/null; then
-    echo "deb"
-  elif command -v dnf &>/dev/null; then
-    echo "rpm"
-  elif command -v rpm &>/dev/null; then
-    echo "rpm"
-  elif command -v pacman &>/dev/null; then
-    echo "arch"
-  else
-    echo "appimage"
+  if command -v apt &>/dev/null; then echo "deb"
+  elif command -v dnf &>/dev/null; then echo "rpm"
+  elif command -v rpm &>/dev/null; then echo "rpm"
+  elif command -v pacman &>/dev/null; then echo "arch"
+  else echo "appimage"
   fi
-}
-
-get_asset_url() {
-  local suffix="$1"
-  curl -fsSL "$API" | grep -oP '"browser_download_url":.*?\K(https.*?'"$suffix"')' | head -1
 }
 
 install_deb() {
   echo "Detectada distribución basada en Debian/Ubuntu"
-  local url=$(get_asset_url '\.deb$')
+  local url="$BASE/$TAG/$DEB"
   local tmp=$(mktemp --suffix=.deb)
   curl -fsSL "$url" -o "$tmp"
   sudo dpkg -i "$tmp"
@@ -36,7 +30,7 @@ install_deb() {
 
 install_rpm() {
   echo "Detectada distribución basada en Fedora/RHEL"
-  local url=$(get_asset_url '\.rpm$')
+  local url="$BASE/$TAG/$RPM"
   local tmp=$(mktemp --suffix=.rpm)
   curl -fsSL "$url" -o "$tmp"
   sudo rpm -i "$tmp"
@@ -46,16 +40,18 @@ install_rpm() {
 
 install_arch() {
   echo "Detectada distribución basada en Arch Linux"
-  local url=$(get_asset_url '\.AppImage$')
+  echo "Descargando AppImage..."
+  local url="$BASE/$TAG/$APPIMAGE"
   local dest="/usr/local/bin/whatsapp-desktop"
   sudo curl -fsSL "$url" -o "$dest"
   sudo chmod +x "$dest"
-  echo "Instalación completada. Ejecuta: whatsapp-desktop"
+  echo "Instalación completada."
+  echo "Ejecuta: whatsapp-desktop"
 }
 
 install_appimage() {
   echo "Usando AppImage universal"
-  local url=$(get_asset_url '\.AppImage$')
+  local url="$BASE/$TAG/$APPIMAGE"
   local dest="./WhatsApp.Desktop.AppImage"
   curl -fsSL "$url" -o "$dest"
   chmod +x "$dest"
